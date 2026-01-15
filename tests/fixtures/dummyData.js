@@ -1,4 +1,4 @@
-import { STATUS } from "../../public/constants/status.js";
+import { STATUS } from "/constants/status.js";
 
 // Dummy data for tests
 export const modules = [

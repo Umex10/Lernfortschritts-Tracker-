@@ -1,5 +1,5 @@
 import { modules } from "../tests/fixtures/dummyData.js";
-import { STATUS } from "../public/constants/status.js";
+import { STATUS } from "./constants/status.js";
 
 // Filter the status out, and create 3 different arrays
 export const groupByStatus = (newModules) => {
