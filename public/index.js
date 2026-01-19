@@ -22,7 +22,7 @@ export const setTasks = (newModules) => {
   });
 };
 window.setTasks = setTasks; 
-windows.getModules = getModules;
+window.getModules = getModules;
 
 document.addEventListener("DOMContentLoaded", () => {
   const modules = getModules();
@@ -31,8 +31,39 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 reload.addEventListener("click", () => {
-  console.log("Reloaded")
+  console.log("Reloaded");
+//Speichere den aktuellen Filterstatus im localStorage  
+  const statusFilter = document.getElementById("statusFilter");
+  if (statusFilter) {
+    localStorage.setItem("stautusFilter", statusFilter.value);
+  }
+ // Lade die Module neu
   const newModules = getModules();
-  setTasks(newModules);
+
+  const savedStatus= localStorage.getItem("stautusFilter") || "all";
+  const filteredModules = savedStatus === "all" ? newModules : newModules.filter(m => m.status === savedStatus.replace("-", " "));
+
+  setTasks(filteredModules);
 });
+
+const sendButton = document.getElementById("send");
+if (sendButton) {
+  sendButton.addEventListener("click", () => {
+    const statusFilter = document.getElementById("statusFilter");
+    if (statusFilter) {
+      const selectedStatus = statusFilter.value;
+      localStorage.setItem("stautusFilter", selectedStatus);
+
+      // Filter the modules based on the selected status
+      const modules = getModules();
+      const filteredModules = selectedStatus === "all" ? modules : modules.filter(m => m.status === selectedStatus.replace("-", " "));
+
+      setTasks(filteredModules);
+    }
+  });
+}
+
+
+
+
 
