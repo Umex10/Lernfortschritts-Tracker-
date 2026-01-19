@@ -1,4 +1,5 @@
 import { STATUS } from "../constants/status.js";
+import { setTasks } from "./index.js";
 
 // Filter the status out, and create 3 different arrays
 export const groupByStatus = (newModules) => {
@@ -22,7 +23,7 @@ export const getModules = () => {
     const loadedModules = localStorage.getItem("moduleData");
     if (loadedModules) {
       newModules = JSON.parse(loadedModules);
-      console.log(newModules)
+      setTasks(newModules);
     }
   } catch (error) {
     console.error("Fehler beim Laden der Module aus localStorage", error);

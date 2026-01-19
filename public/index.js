@@ -1,13 +1,16 @@
-import { getModules } from "./getModules";
+import { getModules } from "./getModules.js";
 
 const reload = document.getElementById("reload");
 const tasks = document.querySelectorAll("#tasks li");
 
-const newModuls = getModules();
-
+export const setTasks = (newModules) => {
 reload.addEventListener("click", () => {
-  listItems.forEach((li, index) => {
-    li.textContent = `${newModuls[index]}`;
+  tasks.forEach((li, index) => {
+    const newModuleString = newModules[index];
+    li.textContent = `${newModuleString.id} 
+    ${newModuleString.status}`;
   });
 })
+}
+
 
