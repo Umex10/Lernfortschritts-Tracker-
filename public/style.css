@@ -123,6 +123,7 @@ button:active {
 }
 
 .error {
+  display: none; /* standardmäßig versteckt */
   margin-top: 0.5rem;
   padding: 0.5rem 0.75rem;
   border-radius: 0.5rem;
@@ -135,4 +136,44 @@ button:active {
   margin-top: 0.75rem;
   width: 100%;
   max-width: 640px;
+}
+
+/* Responsive Layout */
+@media (max-width: 640px) {
+  body {
+    padding: 1.5rem 1rem;
+    justify-content: flex-start;
+  }
+
+  h1 {
+    font-size: 1.6rem;
+    text-align: center;
+  }
+
+  .row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  input[type="search"],
+  select,
+  button {
+    width: 100%;
+  }
+
+  #tasks,
+  .list {
+    max-width: 100%;
+  }
+}
+
+@media (min-width: 1024px) {
+  body {
+    padding: 2rem 0;
+  }
+
+  #tasks,
+  .list {
+    max-width: 720px;
+  }
 }

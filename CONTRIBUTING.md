@@ -71,4 +71,21 @@ Es gibt zwei Möglichkeiten, den Server zu starten:
 
 ---
 
+## Dokumentation
+
+Um die Dokumentation konsistent zu halten, gilt folgende Struktur:
+
+- Zentrale Bereichsdokumente liegen im Ordner [docs](docs).
+   - Frontend / statische Dateien: [docs/public.md](docs/public.md)
+   - Tests / Playwright / Fixtures: [docs/tests.md](docs/tests.md)
+- Spezifische Dokumentation zu einzelnen Ordnern liegt als README.md direkt im jeweiligen Ordner
+   (z. B. [public/constants/README.md](public/constants/README.md)).
+
+Richtlinien:
+- Wenn du einem bestehenden Bereich (z. B. Tests, public) neue Funktionen hinzufügst, erweitere die passende Datei unter [docs](docs).
+- Wenn du einen neuen Unterordner mit wiederverwendbarem Code anlegst, lege dort eine eigene README.md an und beschreibe kurz Zweck, wichtigste Dateien und Konventionen.
+- Verlinke neue Dokus nach Möglichkeit aus der zentralen [README.md](README.md) oder aus [docs](docs), damit sie leicht auffindbar sind.
+
+---
+
 Vielen Dank für deine Mitarbeit! 🚀
