@@ -14,7 +14,8 @@ return groupedByStatus;
 }
 
 // Only run this code in the browser (not during tests)
-if (typeof localStorage !== 'undefined') {
+export const getModules = () => {
+  if (typeof localStorage !== 'undefined') {
   
   let newModules = []
   try {
@@ -27,7 +28,9 @@ if (typeof localStorage !== 'undefined') {
     console.error("Fehler beim Laden der Module aus localStorage", error);
     newModules = [];
   }
+}}
 
-  console.log(groupByStatus(newModules))
-}
+getModules();
+
+
 
