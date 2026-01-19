@@ -4,7 +4,9 @@ import path from "path"; // This is generating the absolute path to the source, 
 const app = express(); // server
 const PT = 3000;
 
-app.use(express.static(path.join(process.cwd(), "public"))); //middleware
+// middlewares
+app.use(express.static(path.join(process.cwd(), "public"))); 
+app.use("/tests", express.static(path.join(process.cwd(), "tests")));
 
 app.get("/module.json", (req, res) => {
   res.sendFile(path.join(process.cwd(), "server/module.json"));
