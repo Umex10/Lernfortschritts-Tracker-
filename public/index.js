@@ -8,12 +8,21 @@ export const setTasks = (newModules) => {
 
   newModules.forEach(module => {
     const li = document.createElement("li");
-    li.textContent = `${module.id} – ${module.status}`;
+    li.innerHTML = `
+      <div class="task-header">
+        <span class="task-title">${module.title ?? "Ohne Titel"}</span>
+        ${module.category ? `<span class="task-category">${module.category}</span>` : ""}
+      </div>
+      ${module.description
+        ? `<p class="task-desc" title="${module.description}">${module.description}</p>`
+        : ""}
+      ${module.explanation
+        ? `<p class="task-expl">${module.explanation}</p>`
+        : ""}
+    `;
     taskList.appendChild(li);
   });
 };
-
-
 
 reload.addEventListener("click", () => {
   console.log("Reloaded")
