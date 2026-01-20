@@ -1,31 +1,32 @@
 import { getModules } from "./getModules.js";
 
 const reload = document.getElementById("reload");
-const taskList = document.getElementById("tasks");
 
-export const setTasks = (newModules) => {
-  if (!taskList) return;
-  taskList.innerHTML = ""; // reset
+export function setTasks(modules) {
+  const list = document.getElementById("tasks");
+  list.innerHTML = "";
 
-  if (!newModules || newModules.length === 0) return;
+  modules.forEach((module) => {
+    
+    // Since "some css classes/values have a space in the class itself, we need to replace it for safety
+    const statusClass = `status-${module.status.replace(" ", "_")}`;
 
-  newModules.forEach(module => {
     const li = document.createElement("li");
+    
+    // Set the content of each li with a task
     li.innerHTML = `
       <div class="task-header">
-        <span class="task-title">${module.title ?? "Ohne Titel"}</span>
-        ${module.category ? `<span class="task-category">${module.category}</span>` : ""}
+        <span class="task-title">${module.title}</span>
+        <div class="task-container-category-status">
+            <span class="task-category">${module.category}</span>
+            <span class="task-status ${statusClass}">${module.status}</span>
+        </div>
       </div>
-      ${module.description
-        ? `<p class="task-desc" title="${module.description}">${module.description}</p>`
-        : ""}
-      ${module.explanation
-        ? `<p class="task-expl">${module.explanation}</p>`
-        : ""}
+      <p class="task-desc">${module.description}</p>
     `;
-    taskList.appendChild(li);
+    list.appendChild(li);
   });
-};
+}
 
 if (reload) {
   reload.addEventListener("click", () => {
