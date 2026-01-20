@@ -23,11 +23,11 @@
   <h1>Lernfortschritt-Tracker</h1>
   <div class="row">
     <input id="search" type="search" placeholder="Suche nach Titel…" />
-    <select id="statusFilter">
-      <option value="all">Alle Status</option>
-      <option value="todo" id="todo">Nur todo</option>
-      <option value="in_progress" id="in_progress">Nur in progress</option>
-      <option value="done" id="done">Nur done</option>
+    <select id="statusFilter" data-testid="status-filter">
+      <option value="all" data-testid="filter-all">All</option>
+      <option value="todo" id="todo" data-testid="filter-todo">todo</option>
+      <option value="in progress" id="in_progress" data-testid="filter-in-progress">in progress</option>
+      <option value="done" id="done" data-testid="filter-done">done</option>
     </select>
     <button id="reload" class="ghost" type="button">Refresh Tasklist</button>
   </div>

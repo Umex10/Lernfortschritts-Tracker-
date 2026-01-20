@@ -1,7 +1,8 @@
 // Pure business logic for filtering modules by status
+// Erwartung: "status" ist genau einer der Werte aus STATUS ("todo", "in progress", "done")
 export const filterByStatus = (modules, status) => {
   if (!status || status === "all") return modules;
-  return modules.filter((m) => m.status.replace(" ", "_") === status);
+  return modules.filter((m) => m.status === status);
 };
 
 export const filterBySearch = (modules, text) => {

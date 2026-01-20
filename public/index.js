@@ -4,26 +4,41 @@ const reload = document.getElementById("reload");
 
 export function setTasks(modules) {
   const list = document.getElementById("tasks");
+  if (!list) return;
+  
   list.innerHTML = "";
 
+  if (!modules || modules.length === 0) {
+    console.log("No modules to display");
+    return;
+  }
+
   modules.forEach((module) => {
-    
-    // Since "some css classes/values have a space in the class itself, we need to replace it for safety
-    const statusClass = `status-${module.status.replace(" ", "_")}`;
+    if (!module || !module.status) {
+      console.warn("Module missing status:", module);
+      return;
+    }
+
+    // Variable berechnen (Leerzeichen durch Unterstriche ersetzen)
+    const statusClass = `status-${module.status.replace(/\s+/g, "_")}`;
 
     const li = document.createElement("li");
     
-    // Set the content of each li with a task
+    // HIER: Die Klasse dem li-Element hinzufügen
+    li.className = `task-item ${statusClass}`; 
+    li.setAttribute("data-testid", `task-${module.id}`);
+
     li.innerHTML = `
       <div class="task-header">
-        <span class="task-title">${module.title}</span>
-        <div class="task-container-category-status">
-            <span class="task-category">${module.category}</span>
-            <span class="task-status ${statusClass}">${module.status}</span>
+        <span class="task-title" data-testid="task-title">${module.title ?? "Ohne Titel"}</span>
+        <div class="task-container-category-status" data-testid="task-meta">
+            <span class="task-category" data-testid="task-category">${module.category ?? ""}</span>
+            <span class="task-status ${statusClass}" data-testid="task-status">${module.status}</span>
         </div>
       </div>
-      <p class="task-desc">${module.description}</p>
+      <p class="task-desc" data-testid="task-desc">${module.description ?? ""}</p>
     `;
+    
     list.appendChild(li);
   });
 }
@@ -36,6 +51,9 @@ if (reload) {
   });
 }
 
-// Initial load
+// Initial load will be triggered by fetchModuleJson.js
+// But we also check if data is already there (for page refreshes)
 const initialModules = getModules();
-setTasks(initialModules);
+if (initialModules && initialModules.length > 0) {
+  setTasks(initialModules);
+}
