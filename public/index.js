@@ -1,3 +1,4 @@
+import { STATUS } from "../src/constants/status.js";
 import { initializeTasks } from "./initializeTasks.js";
 
 const reload = document.getElementById("reload");
@@ -25,6 +26,21 @@ export function setTasks(modules) {
     // Add empty class if category or description is missing
     const categoryClass = module.category ? "" : "empty";
     const descClass = module.description ? "" : "empty";
+
+    // Checks if some module needs to be on status done, 
+    // in order for this module to work
+    const isLocked = module.waitingFor;
+    let lockElement = false;
+
+    if (isLocked) {
+      const waitingForModule = modules.find(module =>
+        module.id === isLocked
+      );
+      if (waitingForModule && waitingForModule.status !== STATUS.DONE) {
+        lockElement = true;
+        console.log("module is locked!")
+      }
+    }
     
     // Initialize archive array if it doesn't exist
     if (!module.archive) {
@@ -49,7 +65,7 @@ export function setTasks(modules) {
 
     const li = document.createElement("li");
     
-    li.className = `task-item ${statusClass}`; 
+    li.className = `task-item ${statusClass} ${lockElement ? "locked" : ""}`; 
     li.setAttribute("data-testid", `task-${module.id}`);
 
     li.innerHTML = `

@@ -12,14 +12,16 @@
   "title": "Deutsch für Anfänger",
   "status": "done",
   "description": "Deutsche Grundgrammatik, Wortschatz und Konversation",
-  "default":false 
+  "default":false,
+  "waitingFor": 1
   },
   {
   "id": 3,
   "title": "Business Englisch Kommunikation",
   "status": "in progress",
   "description": "Professionelles Englisch für Arbeit und Geschäft",
-  "default":false 
+  "default":false,
+  "waitingFor": 1
   },
   {
   "id": 4,
@@ -33,5 +35,6 @@
   "title": "Wirtschaftsgrundlagen",
   "category": "Wirtschaft",
   "status": "done",
-  "default" : false
+  "default" : false,
+  "waitingFor": 2
 }]
