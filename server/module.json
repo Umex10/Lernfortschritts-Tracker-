@@ -10,7 +10,6 @@
 {
   "id": 2,
   "title": "Deutsch für Anfänger",
-  "category": "Sprachen",
   "status": "done",
   "description": "Deutsche Grundgrammatik, Wortschatz und Konversation",
   "default":false 
@@ -18,7 +17,6 @@
   {
   "id": 3,
   "title": "Business Englisch Kommunikation",
-  "category": "Sprachen",
   "status": "in progress",
   "description": "Professionelles Englisch für Arbeit und Geschäft",
   "default":false 
@@ -28,7 +26,6 @@
   "title": "Webprogrammierung Grundlagen",
   "category": "Programmirung",
   "status": "todo",
-  "description": "HTML, CSS und JavaScript für Webentwicklung",
   "default":false 
 },
 {
@@ -36,6 +33,5 @@
   "title": "Wirtschaftsgrundlagen",
   "category": "Wirtschaft",
   "status": "done",
-  "description": "Grundkonzepte der Mikro- und Makroökonomie",
   "default" : false
 }]
