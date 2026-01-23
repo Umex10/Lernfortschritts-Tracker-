@@ -1,6 +1,3 @@
-/**
- * E2E tests focusing on task status persistence and history (archive) behavior.
- */
 import { test, expect } from "@playwright/test";
 import { STATUS } from "../../src/constants/status.js";
 import { testModules } from "../fixtures/dummyData.js";

@@ -1,10 +1,7 @@
-<<<<<<< HEAD
-=======
 /**
  * Test fixture data that mirrors the structure of module.json for predictable E2E scenarios.
  */
 
->>>>>>> umejr
 // Test fixture data that mirrors the structure of module.json
 // Used for E2E tests to ensure predictable test scenarios
 
@@ -20,11 +17,7 @@ export const testModules = [
   },
   {
     id: 2,
-<<<<<<< HEAD
-    title: "Deutsch für Anfänger",
-=======
     title: "German for Beginners",
->>>>>>> umejr
     category: "Languages",
     status: "done",
     description: "German language fundamentals",
@@ -40,11 +33,7 @@ export const testModules = [
   },
   {
     id: 4,
-<<<<<<< HEAD
-    title: "Webprogrammierung Grundlagen",
-=======
     title: "Web Development Fundamentals",
->>>>>>> umejr
     category: "Programming",
     status: "todo",
     description: "HTML, CSS and JavaScript for web development",
@@ -52,11 +41,7 @@ export const testModules = [
   },
   {
     id: 5,
-<<<<<<< HEAD
-    title: "Wirtschaftsgrundlagen",
-=======
     title: "Economics Fundamentals",
->>>>>>> umejr
     category: "Economics",
     status: "done",
     description: "Basic concepts of micro and macro economics",
@@ -86,8 +71,4 @@ export const testModules = [
     description: "SQL and NoSQL database fundamentals",
     default: false
   }
-<<<<<<< HEAD
 ];
-=======
-];
->>>>>>> umejr
