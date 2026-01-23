@@ -1,27 +1,28 @@
 import { setTasks } from "./index.js";
 import { handleFilter } from "../src/utils/filter.js";
-import { getModules } from "./getModules.js";
 
 const search = document.getElementById("search");
 const statusSelect = document.getElementById("statusFilter");
 
-search.addEventListener("input", () => {
-  const modules = getModules();
+function applyFilters() {
+  const modules = JSON.parse(localStorage.getItem("moduleData")) || [];
   const filteredModules = handleFilter(modules, statusSelect.value, search.value);
   setTasks(filteredModules);
-})
+}
 
+search.addEventListener("input", applyFilters);
 
 statusSelect.addEventListener("change", () => {
   localStorage.setItem("status", statusSelect.value);
+  applyFilters();
+});
 
-  const modules = getModules();
-  const filteredModules = handleFilter(
-    modules,
-    statusSelect.value,
-    search.value
-  );
-
-  setTasks(filteredModules);
+// Apply filters when modules are loaded
+window.addEventListener('modulesLoaded', () => {
+  const savedStatus = localStorage.getItem("status");
+  if (savedStatus && savedStatus !== "all") {
+    statusSelect.value = savedStatus;
+  }
+  applyFilters();
 });
 
