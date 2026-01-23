@@ -15,9 +15,10 @@ The `tests/e2e` folder contains Playwright end-to-end tests.
 
 Currently:
 - [tests/e2e/tasks.e2e.spec.js](../tests/e2e/tasks.e2e.spec.js): Tests task list initialization and filtering (status filter, search filter, combined filters) using dummy data from `tests/fixtures`.
+- [tests/e2e/status-history.e2e.spec.js](../tests/e2e/status-history.e2e.spec.js): Tests task status persistence and history (archive) behavior across page reloads.
 
 Purpose:
-- Ensure that key user-facing flows (loading tasks, filtering by status and search) remain stable.
+- Ensure that key user-facing flows (loading tasks, filtering by status and search, and preserving status/history) remain stable.
 
 ## Folder `tests/fixtures`
 

@@ -1,3 +1,6 @@
+/**
+ * Express server that serves the frontend and exposes the module.json endpoint.
+ */
 import express from "express";
 import path from "path"; // This is generating the absolute path to the source, works on all OS-Systems
 

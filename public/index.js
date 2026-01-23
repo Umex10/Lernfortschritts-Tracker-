@@ -1,3 +1,6 @@
+/**
+ * Renders tasks into the DOM, handles status changes, and manages the local status history.
+ */
 import { STATUS } from "../src/constants/status.js";
 import { initializeTasks } from "./initializeTasks.js";
 

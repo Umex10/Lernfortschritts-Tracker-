@@ -8,6 +8,7 @@ The `tests/e2e` folder contains end-to-end (E2E) tests written with Playwright.
 
 Currently:
 - `tasks.e2e.spec.js`: Tests task list initialization and filtering (status filter, search filter, combined filters) using dummy data from `tests/fixtures`.
+- `status-history.e2e.spec.js`: Tests task status persistence and the status history (archive) across page reloads.
 
 Purpose:
 - Ensure that the app works correctly from a user perspective (end-to-end).

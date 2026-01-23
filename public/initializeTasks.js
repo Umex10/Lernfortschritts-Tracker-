@@ -1,3 +1,6 @@
+/**
+ * Fetches module data, stores it in localStorage, and dispatches a modulesLoaded event.
+ */
 import { fetchModule } from "../src/services/moduleService.js";
 
 const errorGetBox = document.getElementById("errorGetBox");

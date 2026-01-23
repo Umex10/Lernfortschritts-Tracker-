@@ -1,3 +1,6 @@
+/**
+ * E2E tests for task list initialization and filtering (status, search, combined).
+ */
 import { test, expect } from "@playwright/test";
 import { STATUS } from "../../src/constants/status.js";
 import { testModules } from "../fixtures/dummyData.js";

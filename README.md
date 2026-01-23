@@ -50,11 +50,9 @@ More details about tests in [docs/tests.md](docs/tests.md).
 	- [services/moduleService.js](src/services/moduleService.js) – Module data fetching
 	- [utils/filter.js](src/utils/filter.js) – Filtering logic
 - **[tests](tests)** – Playwright E2E tests with test fixtures
-  - [e2e/initialization.e2e.spec.js](tests/e2e/initialization.e2e.spec.js) – Initial load tests
-  - [e2e/status-filter.e2e.spec.js](tests/e2e/status-filter.e2e.spec.js) – Status filtering tests
-  - [e2e/search-filter.e2e.spec.js](tests/e2e/search-filter.e2e.spec.js) – Search functionality tests
-  - [e2e/combined-filters.e2e.spec.js](tests/e2e/combined-filters.e2e.spec.js) – Combined filter tests
-  - [fixtures/dummyData.js](tests/fixtures/dummyData.js) – Test data
+	- [e2e/tasks.e2e.spec.js](tests/e2e/tasks.e2e.spec.js) – Initialization and filtering tests (status, search, combined)
+	- [e2e/status-history.e2e.spec.js](tests/e2e/status-history.e2e.spec.js) – Status persistence and history (archive) tests
+	- [fixtures/dummyData.js](tests/fixtures/dummyData.js) – Test data
 - **[docs](docs)** – Comprehensive project documentation
 
 A more detailed description of the frontend can be found in [docs/public.md](docs/public.md).
@@ -66,7 +64,7 @@ E2E tests are based on Playwright and located in [tests/e2e](tests/e2e).
 **Test Strategy:**
 - Tests use dummy data from [tests/fixtures/dummyData.js](tests/fixtures/dummyData.js)
 - Playwright intercepts `module.json` requests to provide predictable test data
-- Tests are organized by feature (initialization, status filter, search filter, combined)
+- Tests are organized by main user flows (task list rendering and filtering, status persistence and history)
 - All tests run against the real application with test data injection
 
 See [tests/e2e/README.md](tests/e2e/README.md) for detailed test documentation.

@@ -30,10 +30,8 @@ The E2E tests use **dummy test data** from `tests/fixtures/dummyData.js` instead
 
 Tests are split into logical feature files for better maintainability:
 
-- **[initialization.e2e.spec.js](initialization.e2e.spec.js)** – Tests initial page load and data rendering
-- **[status-filter.e2e.spec.js](status-filter.e2e.spec.js)** – Tests status filter functionality (todo, in progress, done, all)
-- **[search-filter.e2e.spec.js](search-filter.e2e.spec.js)** – Tests search functionality with valid and invalid queries
-- **[combined-filters.e2e.spec.js](combined-filters.e2e.spec.js)** – Tests simultaneous search and status filtering
+- **[tasks.e2e.spec.js](tasks.e2e.spec.js)** – Tests initial task list rendering and filtering behavior (status filter, search filter, and combined filters) using dummy data.
+- **[status-history.e2e.spec.js](status-history.e2e.spec.js)** – Tests task status persistence and the status history (archive) across page reloads.
 
 ## Adding New Test Data
 
@@ -65,7 +63,7 @@ npm test
 npm run test:headed
 
 # Run specific test file
-npx playwright test tests/e2e/status-filter.e2e.spec.js
+npx playwright test tests/e2e/tasks.e2e.spec.js
 ```
 
 ## Best Practices

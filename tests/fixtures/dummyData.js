@@ -1,3 +1,7 @@
+/**
+ * Test fixture data that mirrors the structure of module.json for predictable E2E scenarios.
+ */
+
 // Test fixture data that mirrors the structure of module.json
 // Used for E2E tests to ensure predictable test scenarios
 
