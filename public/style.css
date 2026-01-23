@@ -19,8 +19,18 @@ body {
   justify-content: flex-start;
   align-items: center;
   padding-top: 2rem;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  background: radial-gradient(circle at top, #1f2933 0, #0b1120 55%, #020617 100%);
+  font-family:
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+  background: radial-gradient(
+    circle at top,
+    #1f2933 0,
+    #0b1120 55%,
+    #020617 100%
+  );
   color: #e5e7eb;
   overflow-y: auto;
 }
@@ -62,7 +72,10 @@ button {
   color: #0b1120;
   font-weight: 600;
   cursor: pointer;
-  transition: transform 0.1s ease, box-shadow 0.1s ease, filter 0.1s ease;
+  transition:
+    transform 0.1s ease,
+    box-shadow 0.1s ease,
+    filter 0.1s ease;
 }
 
 /* Button hover effect: lift up with shadow */
@@ -176,7 +189,7 @@ button:active {
   padding: 0.2rem 0.55rem;
   border-radius: 999px;
   font-weight: 600;
-  text-transform: capitalize; 
+  text-transform: capitalize;
 }
 
 /* Status dropdown select: styled to look like a badge with dropdown icon */
@@ -225,10 +238,7 @@ button:active {
    Task Description & Archive
     */
 
-<<<<<<< HEAD
-=======
 /* Task description text with line clamp */
->>>>>>> umejr
 .task-desc {
   margin: 0.35rem 0 0;
   font-size: 0.9rem;
@@ -345,7 +355,7 @@ button:active {
   button {
     width: 100%;
   }
-  
+
   #tasks,
   .list {
     max-width: 100%;
@@ -361,4 +371,65 @@ button:active {
   .list {
     max-width: 720px;
   }
+}
+
+/*Progress Bar Styles*/
+.progressWrap {
+  display: flex;
+  flex-direction: column;
+  min-width: 200px;
+  gap: 8px;
+}
+.progressTitle {
+  font-size: 16px;
+}
+.progressTrack {
+  height: 10px;
+  overflow: hidden;
+  background: rgba(93, 92, 92, 0.12);
+  border: solid 2px;
+  border-color: #ff9900;
+}
+.progressFill {
+  height: 100%;
+  background: currentColor;
+  width: 0%;
+}
+/*Grid container*/
+#progressbar {
+  display: grid;
+  grid-template-columns: 1fr;
+  align-items: start;
+}
+/* Tablet: 2 Spalten */
+@media (min-width: 520px) {
+  #progressbar {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 30px;
+  }
+}
+
+/* Desktop: 3 Spalten */
+@media (min-width: 900px) {
+  #progressbar {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 50px;
+  }
+}
+/* Desktop: 3 Spalten */
+@media (min-width: 1240px) {
+  #progressbar {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 50px;
+  }
+}
+/*Gesamt als eigene Spalte*/
+.progressWrap.is-overall {
+  grid-column: 1 / -1;
+}
+.progressText {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
 }

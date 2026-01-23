@@ -9,7 +9,7 @@ const reload = document.getElementById("reload");
 export function setTasks(modules) {
   const list = document.getElementById("tasks");
   if (!list) return;
-  
+
   list.innerHTML = "";
 
   if (!modules || modules.length === 0) {
@@ -25,37 +25,38 @@ export function setTasks(modules) {
 
     //SInce some status values have a space letter
     const statusClass = `status-${module.status.replace(/\s+/g, "_")}`;
-    
+
     // Add empty class if category or description is missing
     const categoryClass = module.category ? "" : "empty";
     const descClass = module.description ? "" : "empty";
 
-    // Checks if some module needs to be on status done, 
+    // Checks if some module needs to be on status done,
     // in order for this module to work
     const isLocked = module.waitingFor;
     let lockElement = false;
 
     if (isLocked) {
-      const waitingForModule = modules.find(module =>
-        module.id === isLocked
-      );
+      const waitingForModule = modules.find((module) => module.id === isLocked);
       if (waitingForModule && waitingForModule.status !== STATUS.DONE) {
         lockElement = true;
-        console.log("module is locked!")
+        console.log("module is locked!");
       }
     }
-    
+
     // Initialize archive array if it doesn't exist
     if (!module.archive) {
       module.archive = [];
     }
-    
+
     // Create archive HTML if there are entries
-    let archiveHTML = '';
+    let archiveHTML = "";
     if (module.archive && module.archive.length > 0) {
-      const archiveItems = module.archive.map(entry => 
-        `<li>${entry.timestamp} - Status: <strong>${entry.status}</strong></li>`
-      ).join('');
+      const archiveItems = module.archive
+        .map(
+          (entry) =>
+            `<li>${entry.timestamp} - Status: <strong>${entry.status}</strong></li>`,
+        )
+        .join("");
       archiveHTML = `
         <details class="task-archive">
           <summary>History (${module.archive.length})</summary>
@@ -67,8 +68,8 @@ export function setTasks(modules) {
     }
 
     const li = document.createElement("li");
-    
-    li.className = `task-item ${statusClass} ${lockElement ? "locked" : ""}`; 
+
+    li.className = `task-item ${statusClass} ${lockElement ? "locked" : ""}`;
     li.setAttribute("data-testid", `task-${module.id}`);
 
     li.innerHTML = `
@@ -86,45 +87,51 @@ export function setTasks(modules) {
       <p class="task-desc ${descClass}" data-testid="task-desc">${module.description ?? ""}</p>
       ${archiveHTML}
     `;
-    
+
     list.appendChild(li);
   });
 
   // Add event listeners to all status dropdowns
-  const statusSelects = document.querySelectorAll('.task-status-select');
-  statusSelects.forEach(select => {
-    select.addEventListener('change', (e) => {
+  const statusSelects = document.querySelectorAll(".task-status-select");
+  statusSelects.forEach((select) => {
+    select.addEventListener("change", (e) => {
       const taskId = parseInt(e.target.dataset.taskId);
       const newStatus = e.target.value;
-      
+
       // Update CSS class for color change
-      const oldStatusClass = Array.from(e.target.classList).find(cls => cls.startsWith('status-'));
+      const oldStatusClass = Array.from(e.target.classList).find((cls) =>
+        cls.startsWith("status-"),
+      );
       if (oldStatusClass) {
         e.target.classList.remove(oldStatusClass);
       }
       const newStatusClass = `status-${newStatus.replace(/\s+/g, "_")}`;
       e.target.classList.add(newStatusClass);
-      
+
       // Update in localStorage
       const modules = JSON.parse(localStorage.getItem("moduleData")) || [];
-      const moduleToUpdate = modules.find(m => m.id === taskId);
-      
+      const moduleToUpdate = modules.find((m) => m.id === taskId);
+
       if (moduleToUpdate) {
         // Add to archive
         if (!moduleToUpdate.archive) {
           moduleToUpdate.archive = [];
         }
-        const timestamp = new Date().toLocaleString('de-DE');
+        const timestamp = new Date().toLocaleString("de-DE");
         moduleToUpdate.archive.push({
           status: newStatus,
-          timestamp: timestamp
+          timestamp: timestamp,
         });
-        
+
         // Update status
         moduleToUpdate.status = newStatus;
         localStorage.setItem("moduleData", JSON.stringify(modules));
+
+        // Progressbars updaten
+        window.dispatchEvent(new Event("modulesUpdated"));
+
         console.log(`Updated task ${taskId} to status: ${newStatus}`);
-        
+
         // Re-render to show updated archive
         setTasks(modules);
       }
