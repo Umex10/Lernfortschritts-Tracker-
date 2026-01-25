@@ -3,9 +3,8 @@
  */
 import { STATUS } from "../src/constants/status.js";
 import { initializeTasks } from "./initializeTasks.js";
-import { refetchModule } from "../src/services/moduleService.js";
 
-const reload = document.getElementById("reload");
+//const reload = document.getElementById("reload");
 
 export function setTasks(modules) {
   const list = document.getElementById("tasks");
@@ -24,151 +23,160 @@ export function setTasks(modules) {
       return;
     }
 
-    // Since some status values have a space letter
-    const statusClass = `status-${module.status.replace(/\s+/g, "_")}`;
-
     // Add empty class if category or description is missing
     const categoryClass = module.category ? "" : "empty";
     const descClass = module.description ? "" : "empty";
 
     // Checks if some module needs to be on status done,
     // in order for this module to work
+    const li = document.createElement("li");
+
+    // Status class (todo | in_progress | done)
+    //SInce some status values have a space letter
+    const statusClass = `status-${module.status.replace(/\s+/g, "_")}`;
+
+    // Dependency Text (waitingFor)
+    let dependencyText = "-";
+
+    if (module.waitingFor) {
+      const dep = modules.find(
+        (m) => Number(m.id) === Number(module.waitingFor),
+      );
+
+      if (dep) {
+        dependencyText = "Depends on: " + (dep.title || dep.id);
+      } else {
+        dependencyText = "Depends on: " + module.waitingFor;
+      }
+    }
+
+    // LOCKED check
     const isLocked = module.waitingFor;
     let lockElement = false;
 
     if (isLocked) {
-      const waitingForModule = modules.find((module) => module.id === isLocked);
+      const waitingForModule = modules.find((m) => m.id === isLocked);
       if (waitingForModule && waitingForModule.status !== STATUS.DONE) {
         lockElement = true;
-        console.log("module is locked!");
       }
     }
 
-    // Initialize archive array if it doesn't exist
-    if (!module.archive) {
-      module.archive = [];
-    }
+    // Archive init
+    if (!module.archive) module.archive = [];
 
-    // Create archive HTML if there are entries
+    // History HTML like before just as section
     let archiveHTML = "";
-    if (module.archive && module.archive.length > 0) {
+    if (module.archive.length > 0) {
       const archiveItems = module.archive
         .map(
           (entry) =>
             `<li>${entry.timestamp} - Status: <strong>${entry.status}</strong></li>`,
         )
         .join("");
+
       archiveHTML = `
-        <details class="task-archive">
-          <summary>History (${module.archive.length})</summary>
-          <ul class="archive-list">
-            ${archiveItems}
-          </ul>
-        </details>
-      `;
+    <details class="task-archive">
+      <summary>History (${module.archive.length})</summary>
+      <ul class="archive-list">
+        ${archiveItems}
+      </ul>
+    </details>
+  `;
     }
 
-    const li = document.createElement("li");
-
-    li.className = `task-item ${statusClass} ${lockElement ? "locked" : ""}`;
+    li.className = `task-item ${lockElement ? "locked" : ""}`;
     li.setAttribute("data-testid", `task-${module.id}`);
 
     li.innerHTML = `
-      <div class="task-header">
-        <span class="task-title" data-testid="task-title">${module.title ?? "Ohne Titel"}</span>
-        <div class="task-container-category-status" data-testid="task-meta">
-            <span class="task-category ${categoryClass}" data-testid="task-category">${module.category ?? ""}</span>
-            <select class="task-status-select ${statusClass}" data-testid="task-status" data-task-id="${module.id}">
-              <option value="todo" ${module.status === "todo" ? "selected" : ""}>todo</option>
-              <option value="in progress" ${module.status === "in progress" ? "selected" : ""}>in progress</option>
-              <option value="done" ${module.status === "done" ? "selected" : ""}>done</option>
-            </select>
+      <details class="task-card" data-task-card-id="${module.id}">
+        <summary class="task-summary">
+          <div class="task-summary-left">
+            <div class="task-title" data-testid="task-title">
+              ${module.title ?? "Ohne Titel"}
+            </div>
+            <span class="task-status-pill ${statusClass}">
+              ${module.status ?? "todo"}
+            </span>
+          </div>
+          <span class="task-chevron" aria-hidden="true"></span>
+        </summary>
+
+        <div class="task-body">
+          <div class="task-field">
+            <div class="task-label">Category</div>
+            <div class="task-value" data-testid="task-category">${module.category ?? "-"}</div>
+          </div>
+
+          <div class="task-field">
+            <div class="task-label">Dependencies</div>
+            <div class="task-value">${dependencyText}</div>
+          </div>
+
+          <div class="task-field">
+            <div class="task-label">Description</div>
+            <div class="task-value">${module.description ?? "-"}</div>
+          </div>
+
+          <div class="task-field">
+            <div class="task-label">Status</div>
+           <select class="task-status-select form ${statusClass}"
+              data-testid="task-status"
+              data-task-id="${module.id}"
+                  ${lockElement ? "disabled" : ""}>
+            <option value="${STATUS.TODO}" ${module.status === STATUS.TODO ? "selected" : ""}>${STATUS.TODO}</option>
+            <option value="${STATUS.IN_PROGRESS}" ${module.status === STATUS.IN_PROGRESS ? "selected" : ""}>${STATUS.IN_PROGRESS}</option>
+            <option value="${STATUS.DONE}" ${module.status === STATUS.DONE ? "selected" : ""}>${STATUS.DONE}</option>
+          </select>
+          </div>
+
+          <div class="task-field">
+            <div class="task-label">Comment</div>
+            <textarea class="task-comment" placeholder="add a comment"></textarea>
+          </div>
+
+          <button class="task-save" type="button" data-task-id="${module.id}" ${lockElement ? "disabled" : ""}>
+          Save
+          </button>
+
+          ${archiveHTML}
         </div>
-      </div>
-      <p class="task-desc ${descClass}" data-testid="task-desc">${module.description ?? ""}</p>
-      ${archiveHTML}
+      </details>
     `;
 
     list.appendChild(li);
   });
 
-  // Add event listeners to all status dropdowns
-  const statusSelects = document.querySelectorAll(".task-status-select");
-  statusSelects.forEach((select) => {
-    select.addEventListener("change", (e) => {
-      const taskId = parseInt(e.target.dataset.taskId);
-      const newStatus = e.target.value;
+  // on change, remember and save
+  list.onchange = (e) => {
+    const select = e.target.closest(".task-status-select");
+    if (!select || select.disabled) return;
 
-      // Update CSS class for color change
-      const oldStatusClass = Array.from(e.target.classList).find((cls) =>
-        cls.startsWith("status-"),
-      );
-      if (oldStatusClass) {
-        e.target.classList.remove(oldStatusClass);
-      }
-      const newStatusClass = `status-${newStatus.replace(/\s+/g, "_")}`;
-      e.target.classList.add(newStatusClass);
+    const taskId = Number(select.dataset.taskId);
+    const newStatus = select.value;
 
-      // Update in localStorage
-      const modules = JSON.parse(localStorage.getItem("moduleData")) || [];
-      const moduleToUpdate = modules.find((m) => m.id === taskId);
+    const modules = JSON.parse(localStorage.getItem("moduleData")) || [];
+    const moduleToUpdate = modules.find((m) => Number(m.id) === taskId);
+    if (!moduleToUpdate) return;
 
-      if (moduleToUpdate) {
-        // Add to archive
-        if (!moduleToUpdate.archive) {
-          moduleToUpdate.archive = [];
-        }
-        const timestamp = new Date().toLocaleString("de-DE");
-        moduleToUpdate.archive.push({
-          status: newStatus,
-          timestamp: timestamp,
-        });
-
-        // Update status
-        moduleToUpdate.status = newStatus;
-
-        // If setting to TODO, also reset all tasks that depend on this task
-        if (newStatus === STATUS.TODO || newStatus === STATUS.IN_PROGRESS) {
-          const dependentTasks = modules.filter((m) => m.waitingFor === taskId);
-          dependentTasks.forEach((task) => {
-            task.status = STATUS.TODO;
-          });
-        }
-
-        localStorage.setItem("moduleData", JSON.stringify(modules));
-
-        // Progressbars updaten
-        window.dispatchEvent(new Event("modulesUpdated"));
-
-        console.log(`Updated task ${taskId} to status: ${newStatus}`);
-
-        // Re-apply filters to respect active filter state
-        window.dispatchEvent(new CustomEvent('modulesLoaded', { detail: modules }));
-      }
+    if (!moduleToUpdate.archive) moduleToUpdate.archive = [];
+    moduleToUpdate.archive.push({
+      status: newStatus,
+      timestamp: new Date().toLocaleString("de-DE"),
     });
-  });
-}
 
-if (reload) {
-  reload.addEventListener("click", async () => {
-    console.log("Reloading from server...");
-    try {
-      const modules = await refetchModule();
-      
-      // Update the display with fresh data
-      setTasks(modules);
-      
-      // Trigger custom event
-      window.dispatchEvent(new CustomEvent('modulesLoaded', { detail: modules }));
-      
-      console.log("Tasks refreshed from server");
-    } catch (error) {
-      console.error("Error refreshing tasks:", error);
-      const errorGetBox = document.getElementById("errorGetBox");
-      if (errorGetBox) {
-        errorGetBox.textContent = "Failed to refresh tasks from server.";
-        errorGetBox.style.display = "block";
-      }
-    }
-  });
+    moduleToUpdate.status = newStatus;
+    localStorage.setItem("moduleData", JSON.stringify(modules));
+
+    const card = select.closest(".task-card");
+    card.querySelector(".task-save").disabled = false;
+  };
+
+  list.onclick = (e) => {
+    const btn = e.target.closest(".task-save");
+    if (!btn || btn.disabled) return;
+    initializeTasks();
+  };
 }
+document.addEventListener("DOMContentLoaded", () => {
+  initializeTasks();
+});

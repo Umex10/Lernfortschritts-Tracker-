@@ -19,14 +19,19 @@
       property="og:description"
       content="Track learning goals, sessions, and progress with an intuitive dashboard."
     />
-    <meta property="og:url" content="https://google.com" />
+    <meta
+      property="og:url"
+      content="https://github.com/Umex10/Lernfortschritts-Tracker"
+    />
     <meta property="og:locale" content="en_US" />
     <title>Learning Progress Tracker</title>
     <link rel="stylesheet" href="./style.css" />
+    <link rel="icon" href="../ui/favicon.jpg" type="image/x-icon" />
   </head>
 
   <body>
     <h1>Learning Progress Tracker</h1>
+    <p>Track your learning journey</p>
     <div class="row">
       <input
         id="search"
@@ -34,6 +39,7 @@
         placeholder="Search by title…"
         data-testid="search-filter"
       />
+      <span class="statuslabel">Filter by status</span>
       <select id="statusFilter" data-testid="status-filter">
         <option value="all" data-testid="filter-all">All</option>
         <option value="todo" id="todo" data-testid="filter-todo">todo</option>
@@ -46,11 +52,13 @@
         </option>
         <option value="done" id="done" data-testid="filter-done">done</option>
       </select>
-      <button id="reload" class="ghost" type="button">Refresh Tasklist</button>
     </div>
 
     <div id="progressbar"></div>
 
+    <!--
+    Discuss if we still need the button when we have the save button
+    <button id="reload" class="ghost" type="button">Refresh Tasklist</button>-->
     <div id="errorGetBox" class="error"></div>
     <ul id="tasks"></ul>
 
