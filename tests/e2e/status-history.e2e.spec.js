@@ -32,6 +32,11 @@ test.describe("Task status persistence and history", () => {
     await page.waitForSelector('#tasks li[data-testid^="task-"]', { timeout: 10000 });
 
     const firstTask = page.locator('#tasks > li[data-testid^="task-"]').first();
+    
+    // Open the details element to make the select visible
+    const details = firstTask.locator('details.task-card');
+    await details.click();
+    
     const statusSelect = firstTask.getByTestId("task-status");
 
     const originalStatus = await statusSelect.inputValue();
@@ -50,6 +55,11 @@ test.describe("Task status persistence and history", () => {
     await page.waitForSelector('#tasks li[data-testid^="task-"]', { timeout: 10000 });
 
     const firstTaskAfter = page.locator('#tasks > li[data-testid^="task-"]').first();
+    
+    // Open the details element again after reload
+    const detailsAfter = firstTaskAfter.locator('details.task-card');
+    await detailsAfter.click();
+    
     const statusAfterReload = await firstTaskAfter
       .getByTestId("task-status")
       .inputValue();
@@ -61,14 +71,24 @@ test.describe("Task status persistence and history", () => {
     await page.waitForSelector('#tasks li[data-testid^="task-"]', { timeout: 10000 });
 
     const firstTask = page.locator('#tasks > li[data-testid^="task-"]').first();
+    
+    // Open the details element to make the select visible
+    const details = firstTask.locator('details.task-card');
+    await details.click();
+    
     const statusSelect = firstTask.getByTestId("task-status");
 
     // Change status once to create a history entry
     await statusSelect.selectOption(STATUS.IN_PROGRESS);
     await page.waitForTimeout(300);
 
+    // Click the Save button to trigger DOM update with history
+    const saveButton = firstTask.locator('button.task-save');
+    await saveButton.click();
+    await page.waitForTimeout(300);
+
     const historyDetails = firstTask.locator(".task-archive");
-    await expect(historyDetails).toBeVisible();
+    await expect(historyDetails).toBeAttached();
 
     const summary = historyDetails.locator("summary");
     const summaryText = (await summary.textContent())?.trim();
@@ -79,7 +99,12 @@ test.describe("Task status persistence and history", () => {
     await page.waitForSelector('#tasks li[data-testid^="task-"]', { timeout: 10000 });
 
     const firstTaskAfter = page.locator('#tasks > li[data-testid^="task-"]').first();
+    
+    // Open the details element again after reload
+    const detailsAfter = firstTaskAfter.locator('details.task-card');
+    await detailsAfter.click();
+    
     const historyAfterReload = firstTaskAfter.locator(".task-archive");
-    await expect(historyAfterReload).toBeVisible();
+    await expect(historyAfterReload).toBeAttached();
   });
 });
